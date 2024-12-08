@@ -1,0 +1,352 @@
+
+
+body {
+
+    background-color: #000; /* Fallback color */
+    overflow: hidden; /* Prevent scrollbars caused by pseudo-element */
+    position: relative; /* Needed for positioning the pseudo-element */
+    overflow-y: auto;
+  }
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(10px); /* Apply blur effect to the background */
+    z-index: -1; /* Put the pseudo-element behind the content */
+    opacity: 0.5; /* Optional: control the opacity to adjust visibility of the image */
+    
+}
+ 
+
+
+body1{
+    background-color: #4773aa;
+}
+/* Container for the navigation bar */
+.nav-item {
+    display: flex;                  /* Use Flexbox to align items in a row */
+    justify-items: center;
+    align-items: center;            /* Center items vertically */
+    gap: 20px;                      /* Space between items */
+    padding: 20px;             /* Add padding to the navbar */
+
+   
+  }
+  
+  .nav-item1{
+    display: flex;                  /* Use Flexbox to align items in a row */
+    justify-items: center;
+    align-items: center;            /* Center items vertically */
+    gap: 40px;                      /* Space between items */
+    padding: 50px;             /* Add padding to the navbar */
+
+    text-decoration: none;
+    color: #333;
+
+    font-weight: bold;
+    position: relative; /* To allow the underline effect */
+    transition: color 0.3s, transform 0.3s; /* Smooth color and scale transition */
+
+
+  }
+  .nav-header{
+    display: flex;
+    align-items: center; /* Center items vertically */
+    gap: 20px; /* Space between items */
+    padding: 20px; /* Add padding to the navbar */
+    
+    /* Fixed position properties */
+    position: fixed; /* Keep the navbar fixed at the top */
+    top: 0; /* Position it at the top */
+    left: 0; /* Align it to the left side of the viewport */
+    width: 100%; /* Make the navbar span the entire width */
+    
+    /* Layering properties */
+    z-index: 9999; /* High z-index value to ensure the navbar is in front of everything */
+   
+   
+  }
+/* Style for centering title */
+.title-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-wrapper h1{
+    font-size: 48px;
+    margin: 0;
+}
+
+.title-wrapper p{
+    font-size: 20px;
+}
+
+.page1 h1 {
+    font-size: 2.5;
+    text-decoration: underline;
+    color: #e4e2e0;
+    text-align: center;
+}
+
+
+/* Image Links Section */
+.image-links {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin: 2px;
+    text-align: center;
+    text-decoration: underline;
+    text-decoration-color: darkgray;
+
+    a {
+        text-decoration: none;
+        color: #e4e2e0;
+    }
+
+    img {
+        width: 200px;
+        height: auto;
+        border-radius: 10px;
+        transition: transform 0.3s;
+    }
+
+    /* .image-links p {
+        margin-top: 0.5px;
+        font-size: 1px;
+        color: #e4e2e0;
+        font-weight: bold;
+    } */
+}
+.logo {
+ /* Logo takes up 20% of the header width */
+    text-align: left;
+    
+  }
+  
+  .logo img {
+
+    height: auto;
+    transition: transform 0.3s ease-in-out; /* Add smooth scaling effect on hover */
+  }
+  
+  /* Hover effect on the logo */
+  .logo img:hover {
+    transform: scale(1.1); /* Slight zoom effect on hover */
+  }
+
+/* Description and Review Section */
+.description {
+    font-size: 10px;
+
+    p {
+        margin: 0;
+        padding: 0;
+        color: white;
+    }
+}
+
+
+.latest_release {
+    font-size: 1;
+    text-align: center;
+    color: #e4e2e0;
+    text-decoration: underline;
+}
+
+.column {
+    display: flex;
+    flex: 20%;
+    float: left;
+    width: auto;
+    height: 40%;
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-submenu {
+    position: relative;
+  }
+  
+  .submenu-content {
+    display: none;
+    position: absolute;
+    left: 100%; /* Position the submenu to the right */
+    top: 0;     /* Align with the top of the parent */
+    background-color: #f9f9f9;
+    min-width: 160px;
+    z-index: 1;
+  }
+ 
+  .dropdown-content a:hover {background-color: #f1f1f1}
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+  } 
+
+  .dropdown-content, .submenu-content {
+    display: none; /* Hide by default */
+    position: absolute; /* Position relative to the parent */
+  }
+  
+  .dropdown:hover .dropdown-content,
+  .dropdown-submenu:hover .submenu-content {
+    display: block; /* Show on hover */
+  }
+  
+  .gallery-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .gallery-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .gallery-item {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .gallery-item img {
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .gallery-item img:hover {
+    transform: scale(1.05);
+  }
+  
+  .gallery-item p {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #555;
+  }
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+    .collapsible-container {
+      margin: 20px 0;
+    }
+
+    /* Hide the checkbox but keep it functional */
+    .collapsible-checkbox {
+      display: none;
+    }
+
+    /* Label for the collapsible button */
+    .collapsible-label {
+      display: block;
+      background-color: #4285f4;
+      color: white;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      user-select: none;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .collapsible-label:hover {
+      background-color: #357ae8;
+    }
+
+    /* Collapsible content styling */
+    .collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 0 15px;
+      margin-top: 10px;
+    }
+
+    /* When the checkbox is checked, expand the content */
+    .collapsible-checkbox:checked + .collapsible-label + .collapsible-content {
+      max-height: 100%; /* Adjust based on your content size */
+      padding: 15px;
+    }
+
+    
