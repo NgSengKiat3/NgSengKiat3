@@ -1,11 +1,30 @@
 .nav-header {
-    .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 20%;
-    }
+    display: flex;
+    align-items: center;
+    /* Center items vertically */
+    gap: 20px;
+    /* Space between items */
+
+    /* Fixed position properties */
+    position: fixed;
+    /* Keep the navbar fixed at the top */
+    top: 0;
+    /* Position it at the top */
+    left: 0;
+    /* Align it to the left side of the viewport */
+    width: 100%;
+    /* Make the navbar span the entire width */
+
+    /* Layering properties */
+    z-index: 9999;
+    /* High z-index value to ensure the navbar is in front of everything */
+
+
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
 
     .logo img {
         width: 40%;
@@ -39,12 +58,6 @@ body::before {
     opacity: 0.5;
     /* Optional: control the opacity to adjust visibility of the image */
 
-}
-
-
-
-body1 {
-    background-color: #4773aa;
 }
 
 /* Container for the navigation bar */
@@ -81,32 +94,6 @@ body1 {
     /* To allow the underline effect */
     transition: color 0.3s, transform 0.3s;
     /* Smooth color and scale transition */
-
-
-}
-
-.nav-header {
-    display: flex;
-    align-items: center;
-    /* Center items vertically */
-    gap: 20px;
-    /* Space between items */
-    padding: 20px;
-    /* Add padding to the navbar */
-
-    /* Fixed position properties */
-    position: fixed;
-    /* Keep the navbar fixed at the top */
-    top: 0;
-    /* Position it at the top */
-    left: 0;
-    /* Align it to the left side of the viewport */
-    width: 100%;
-    /* Make the navbar span the entire width */
-
-    /* Layering properties */
-    z-index: 9999;
-    /* High z-index value to ensure the navbar is in front of everything */
 
 
 }
