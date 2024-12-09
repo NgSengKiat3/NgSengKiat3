@@ -36,6 +36,10 @@ function initializeValues() {
         };
         setLocalStorage(localStorageKeys.inventory, inventory);
     }
+
+    if (!getLocalStorage)(localStorageKeys.feedback);
+        const feedback = [];
+        setLocalStorage(localStorageKeys.feedback, feedback);
 }
 
 
