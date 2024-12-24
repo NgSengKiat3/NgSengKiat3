@@ -35,29 +35,13 @@
 
 body {
 
-    background-color: #000;
+    background-color: blue;
     /* Fallback color */
     overflow: hidden;
     /* Prevent scrollbars caused by pseudo-element */
     position: relative;
     /* Needed for positioning the pseudo-element */
     overflow-y: auto;
-}
-
-body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    filter: blur(10px);
-    /* Apply blur effect to the background */
-    z-index: -1;
-    /* Put the pseudo-element behind the content */
-    opacity: 0.5;
-    /* Optional: control the opacity to adjust visibility of the image */
-
 }
 
 /* Container for the navigation bar */
@@ -116,14 +100,6 @@ body::before {
 .title-wrapper p {
     font-size: 20px;
 }
-
-.page1 h1 {
-    font-size: 2.5;
-    text-decoration: underline;
-    color: #e4e2e0;
-    text-align: center;
-}
-
 
 /* Image Links Section */
 .image-links {
@@ -347,6 +323,7 @@ body::before {
 
 .collapsible-container {
     margin: 20px 0;
+
 }
 
 /* Hide the checkbox but keep it functional */
@@ -389,3 +366,30 @@ body::before {
     /* Adjust based on your content size */
     padding: 15px;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  table thead tr {
+    background-color: #333;
+    color: white;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  table tbody tr {
+    background-color: grey;
+  }
+  
+  table tbody tr:hover {
+    background-color: #ddd;
+  }
