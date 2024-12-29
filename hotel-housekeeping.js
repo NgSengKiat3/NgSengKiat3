@@ -3,7 +3,8 @@ const localStorageKeys = {
     room: 'room',
     task: 'task',
     feedback: 'feedback',
-    inventory: 'inventory'
+    inventory: 'inventory',
+    maintanence: 'maintanence'
 }
 
 function getLocalStorage(key) {
@@ -16,31 +17,44 @@ function setLocalStorage(key, value) {
 }
 
 function initializeValues() {
-    if (!getLocalStorage(localStorageKeys.room)) {
-        const rooms = [];
-        for (let i = 0; i < 20; i++) {
-            rooms.push(`Room ${i}`)
-        }
-        setLocalStorage(localStorageKeys.room, rooms);
+    const rooms = [];
+    for (let i = 0; i < 20; i++) {
+        rooms.push(`Room ${i}`)
     }
+    initializeIfNotSet(localStorageKeys.room, rooms);
 
-    if (!getLocalStorage(localStorageKeys.task)) {
-        const tasks = [];
-        setLocalStorage(localStorageKeys.task, tasks);
-    }
+    const tasks = [];
+    initializeIfNotSet(localStorageKeys.task, tasks);
 
-    if (!getLocalStorage(localStorageKeys.inventory)) {
-        const inventory = {
-            towel: 100,
-            toothbrsh: 200,
-        };
-        setLocalStorage(localStorageKeys.inventory, inventory);
-    }
+    const inventory = {
+        towel: 100,
+        toothbrush: 200,
+    };
+    initializeIfNotSet(localStorageKeys.inventory, inventory);
 
-    if (!getLocalStorage)(localStorageKeys.feedback);
-        const feedback = [];
-        setLocalStorage(localStorageKeys.feedback, feedback);
+    const maintanence = [];
+    initializeIfNotSet(localStorageKeys.maintanence, maintanence);
+
+    const feedback = [];
+    initializeIfNotSet(localStorageKeys.feedback, feedback);
+
+    const staff = [{ id: 1, name: 'John' }, { id: 2, name: 'Doe' }];
+    initializeIfNotSet(localStorageKeys.staff, staff);
 }
 
 
 initializeValues();
+
+function initializeIfNotSet(key, value) {
+    if (!getLocalStorage(key)) {
+        try {
+            setLocalStorage(key, value);
+        } catch (error) {
+            if (error.name === "QuotaExceedError") {
+                console.error("Storage limit exceeded. Data was not saved.");
+            } else {
+                console.error("An unexpected error occurred:", error);
+            }
+        }
+    }
+}
