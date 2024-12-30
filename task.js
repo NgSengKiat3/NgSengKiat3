@@ -4,9 +4,6 @@ let modalTask = undefined; // Tracks the task being edited
 function loadTasks() {
     const tasks = getLocalStorage(localStorageKeys.task);
 
-    /**
-     * @type {HTMLTableSectionElement}
-     */
     const tableBody = document.querySelector('#task-table tbody');
     tableBody.innerHTML = ''; // Clear the table before loading new data
 
@@ -83,33 +80,67 @@ function saveTasks(tasks) {
 
 // Add new task
 function addTask() {
-    const tasks = getLocalStorage(localStorageKeys.task);
+    // Clear the input fields in the modal
+    document.querySelector('#taskID').value = ''; // Empty ID (we'll set it below)
+    document.querySelector('#description').value = ''; // Clear description
+    document.querySelector('#taskStatus').value = 'Pending'; // Default status
+    document.querySelector('#Assigned').value = 'John'; // Default assigned person
 
+    // The task ID will be automatically assigned once the task is saved
+    const tasks = getLocalStorage(localStorageKeys.task);
     let id = 1;
     if (tasks.length > 0) {
         id = Math.max(...tasks.map(task => task.id)) + 1; // Auto-increment ID
     }
+    document.querySelector('#taskID').value = id; // Set the new task ID
 
-    tasks.push({
-        id: id,
-        description: '', // Default description
-        status: 'Pending', // Default status
-        assignedTo: 'John', // Default assignedTo
-    });
-
-    saveTasks(tasks);
+    // Open the modal to add a new task
+    const taskModal = new bootstrap.Modal(document.getElementById('roomModal'));
+    taskModal.show();
 }
 
-// Delete a task by ID
+// Save task to localStorage
+function saveTask() {
+    const taskID = document.querySelector('#taskID').value;
+    const description = document.querySelector('#description').value;
+    const status = document.querySelector('#taskStatus').value;
+    const assignedTo = document.querySelector('#Assigned').value;
+
+    // Retrieve current tasks from localStorage
+    const tasks = getLocalStorage(localStorageKeys.task);
+
+    // Create new task object
+    const newTask = {
+        id: parseInt(taskID), // Ensure the ID is a number
+        description: description,
+        status: status,
+        assignedTo: assignedTo
+    };
+
+    // Push the new task to the task array
+    tasks.push(newTask);
+
+    // Save updated tasks list
+    saveTasks(tasks);
+
+    // Close the modal after saving
+    const taskModal = new bootstrap.Modal(document.getElementById('roomModal'));
+    taskModal.hide();
+}
+
+// Delete a task
 function deleteTask(taskId, tasks) {
     const updatedTasks = tasks.filter(task => task.id !== taskId);
-    saveTasks(updatedTasks);
+    saveTasks(updatedTasks); // Save the updated list of tasks
 }
 
 // Initialize and load data on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadTasks();
 
-    // Add Task button event
-    document.querySelector('#add-task-button').addEventListener('click', addTask);
+    // Event listener for the Add Task button
+    document.querySelector('#btn-add-room').addEventListener('click', addTask);
+
+    // Event listener for the Save Task button inside the modal
+    document.querySelector('#save-task-button').addEventListener('click', saveTask);
 });

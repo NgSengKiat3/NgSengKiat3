@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang=" en">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maintanence</title>
+    <title>Maintenance</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="Style.css">
-    <script src="Maintanence.js"></script>
+    <script src="hotel-housekeeping.js"></script>
+    <script src="maintanence.js" defer></script>
 </head>
-<!-- Navigation bar -->
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
     <header class="nav-header">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <li class="nav-item">
@@ -20,99 +23,81 @@
                     <img
                         src="https://e7.pngegg.com/pngimages/88/672/png-clipart-hotel-computer-icons-room-housekeeping-sweeping-text-logo.png">
                 </a>
-            </li><a class="logo" href="index.html"></a>
-            <li class="nav-item1"><a class="logo" href="index.html"></a>
-                <a class="nav-link" href="About.html">About</a>
             </li>
-            <li class="nav-item1">
-                <a class="nav-link" href="Room.html">Room</a>
-            </li>
-            <li class="nav-item1">
-                <a class="nav-link" href="Task.html">Task</a>
-            </li>
-            <li class="nav-item1">
-                <a class="nav-link" href="Inventory.html">Inventory</a>
-            </li>
-            <li class="nav-item1">
-                <a class="nav-link" href="Maintanence.html">Maintanence</a>
-            </li>
-            <li class="nav-item1">
-                <div class="dropdown">
-                    <a class="nav-link" href="Staff.html">Staff</a>
-            </li>
-            <li class="nav-item1">
-                <a class="nav-link" href="FAQ.html">FAQ</a>
-            </li>
+            <li class="nav-item1"><a class="nav-link" href="About.html">About</a></li>
+            <li class="nav-item1"><a class="nav-link" href="Room.html">Room</a></li>
+            <li class="nav-item1"><a class="nav-link" href="Task.html">Task</a></li>
+            <li class="nav-item1"><a class="nav-link" href="Inventory.html">Inventory</a></li>
+            <li class="nav-item1"><a class="nav-link" href="Maintanence.html">Maintenance</a></li>
+            <li class="nav-item1"><a class="nav-link" href="Staff.html">Staff</a></li>
+            <li class="nav-item1"><a class="nav-link" href="FAQ.html">FAQ</a></li>
         </nav>
     </header>
 
     <main>
-        <h1>Maintanence</h1>
-        <p>Welcome to "Maintanence" page. This is where you report or request maintanence request here.</p>
-        <table>
+        <h1>Maintenance</h1>
+        <p>Welcome to the Maintenance page. The table below shows the current maintenance tasks and statuses.</p>
+
+        <table id="maintenance-table">
             <thead>
                 <tr>
-                    <th>Task ID</th>
+                    <th>Maintenance ID</th>
                     <th>Description</th>
                     <th>Status</th>
-                    <th>Assigned Technician</th>
-                    <th>Priority</th>
+                    <th>Assigned to</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>001</td>
-                    <td>Fix broken AC in Room 101</td>
-                    <td>In Progress</td>
-                    <td>Mike Johnson</td>
-                    <td>High</td>
-                </tr>
-                <tr>
-                    <td>002</td>
-                    <td>Replace light bulb in hallway</td>
-                    <td>Completed</td>
-                    <td>Sarah Green</td>
-                    <td>Low</td>
-                </tr>
-                <tr>
-                    <td>003</td>
-                    <td>Repair leaking faucet in Room 202</td>
-                    <td>Pending</td>
-                    <td>Tom Brown</td>
-                    <td>Medium</td>
-                </tr>
-                <tr>
-                    <td>004</td>
-                    <td>Inspect elevator system</td>
-                    <td>In Progress</td>
-                    <td>Emily Davis</td>
-                    <td>High</td>
-                </tr>
-                <tr>
-                    <td>005</td>
-                    <td>Repaint walls in lobby</td>
-                    <td>Scheduled</td>
-                    <td>John Doe</td>
-                    <td>Low</td>
-                </tr>
-            </tbody>
+            <tbody></tbody>
         </table>
-        <!-- Add Maintanence Form -->
-        <form id="addMaintanenceForm" onsubmit="event.preventDefault(); addMaintanence();">
-            <input type="text" id="TaskID" placeholder="TaskID" required>
-            <input type="text" id="Description" placeholder="Description" required>
-            <input type="text" id="Status" placeholder="Status" required>
-            <input type="text" id="Assigned" placeholder="Assigned" required>
-            <input type="text" id="Priority" placeholder="Priority" required>
-            <button type="submit">Summit</button>
-        </form>
+
+        <button type="button" class="btn btn-primary" id="btn-add-maintenance" data-bs-toggle="modal"
+            data-bs-target="#maintenanceModal" onclick="addMaintenance()">Add Maintenance</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="maintenanceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="maintenanceModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="maintenanceModalLabel">Add Maintenance Task</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="maintenanceDescription" class="mt-3">Description:</label>
+                        <input type="text" id="maintenanceDescription" class="form-control">
+
+                        <label for="maintenanceStatus" class="mt-3">Status:</label>
+                        <select id="maintenanceStatus" class="form-control">
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+
+                        <label for="assignedTo" class="mt-3">Assigned to:</label>
+                        <select id="assignedTo" class="form-control">
+                            <option value="John">John</option>
+                            <option value="Doe">Doe</option>
+                            <option value="Jane">Jane</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            onclick="saveMaintenance()">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
-    <!-- Footer -->
+
     <section class="description">
         <div class="container text-center">
             <p class="mb-0">Contact us: <strong>012-3456789 (Mr. Kim)</strong></p>
         </div>
     </section>
+
+
 </body>
 
 </html>

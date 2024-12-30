@@ -21,7 +21,7 @@ function initializeValues() {
     for (let i = 0; i < 20; i++) {
         rooms.push(`Room ${i}`)
     }
-    initializeIfNotSet(localStorageKeys.room, rooms);
+
 
     const tasks = [];
     initializeIfNotSet(localStorageKeys.task, tasks);
@@ -34,9 +34,6 @@ function initializeValues() {
 
     const maintanence = [];
     initializeIfNotSet(localStorageKeys.maintanence, maintanence);
-
-    const feedback = [];
-    initializeIfNotSet(localStorageKeys.feedback, feedback);
 
     const staff = [{ id: 1, name: 'John' }, { id: 2, name: 'Doe' }];
     initializeIfNotSet(localStorageKeys.staff, staff);

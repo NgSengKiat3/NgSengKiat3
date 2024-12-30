@@ -1,77 +1,88 @@
-const localStorageKey = 'maintanence';
+const localStorageKey = 'maintenances';
 
-// Helper functions for localStorage
-function getLocalStorage(key) {
-    return JSON.parse(localStorage.getItem(key)) || [];
-}
+// Load maintenance tasks
+function loadMaintenances() {
+    const maintenances = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    const tableBody = document.querySelector('#maintenance-table tbody');
+    tableBody.innerHTML = '';
 
-function setLocalStorage(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-}
+    maintenances.forEach((maintenance) => {
+        const row = tableBody.insertRow();
 
-// Initialize Maintanence data
-function initializeMaintanenceData() {
-    if (!localStorage.getItem(localStorageKey)) {
-        const defaultMaintanences = [
-            { MaintanenceId: '001', MaintanenceDescription: 'Single',
-                 MaintanenceStatus: WIP, MaintanenceAssign: 'Mike Tyson',
-                MaintanencePriority: 'High' },
-            { MaintanenceId: '002', MaintanenceDescription: 'Double',
-                 MaintanenceStatus: Pending, MaintanenceAssign: 'Sarah Green',
-                MaintanencePriority: 'Low' },
-        ];
-        setLocalStorage(localStorageKey, defaultMaintanences);
-    }
-}
+        row.insertCell(0).textContent = maintenance.id;
+        const descriptionCell = row.insertCell(1);
+        const statusCell = row.insertCell(2);
+        const assignedCell = row.insertCell(3);
+        const actionCell = row.insertCell(4);
 
-// Load Maintanence data into the table
-function loadMaintanences() {
-    const Maintanence = getLocalStorage(localStorageKey);
-    const tableBody = document.getElementById('MaintanenceTable').getElementsByTagName('tbody')[0];
-    tableBody.innerHTML = ''; // Clear existing rows
+        const descriptionInput = document.createElement('input');
+        descriptionInput.type = 'text';
+        descriptionInput.value = maintenance.description;
+        descriptionInput.addEventListener('change', () => {
+            maintenance.description = descriptionInput.value;
+            saveMaintenances(maintenances);
+        });
+        descriptionCell.appendChild(descriptionInput);
 
-    Maintanence.forEach(Maintanence => {
-        const newRow = tableBody.insertRow();
-        newRow.innerHTML = `
-            <td>${Maintanence.MaintanenceId}</td>
-            <td>${Maintanence.MaintanenceDescription}</td>
-            <td>${Maintanence.MaintanenceStatus}</td>
-            <td>${Maintanence.MaintanenceAssign}</td>
-            <td>${Maintanence.MaintanencePriority}</td>
-        `;
+        const statusSelect = document.createElement('select');
+        ['Pending', 'In Progress', 'Completed'].forEach((status) => {
+            const option = document.createElement('option');
+            option.value = status;
+            option.textContent = status;
+            if (maintenance.status === status) option.selected = true;
+            statusSelect.appendChild(option);
+        });
+        statusSelect.addEventListener('change', () => {
+            maintenance.status = statusSelect.value;
+            saveMaintenances(maintenances);
+        });
+        statusCell.appendChild(statusSelect);
+
+        const assignedSelect = document.createElement('select');
+        ['John', 'Doe', 'Jane'].forEach((person) => {
+            const option = document.createElement('option');
+            option.value = person;
+            option.textContent = person;
+            if (maintenance.assignedTo === person) option.selected = true;
+            assignedSelect.appendChild(option);
+        });
+        assignedSelect.addEventListener('change', () => {
+            maintenance.assignedTo = assignedSelect.value;
+            saveMaintenances(maintenances);
+        });
+        assignedCell.appendChild(assignedSelect);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'btn btn-danger';
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => {
+            const index = maintenances.indexOf(maintenance);
+            maintenances.splice(index, 1);
+            saveMaintenances(maintenances);
+            loadMaintenances();
+        });
+        actionCell.appendChild(deleteButton);
     });
 }
 
-// Add a new Maintanence
-function addMaintanence() {
-    // Get form values
-    const MaintanenceId = document.getElementById('MaintanenceId').value;
-    const MaintanenceDescription = document.getElementById('MaintanenceDescription').value;
-    const MaintanenceStatus = parseInt(document.getElementById('MaintanenceStatus').value, 10);
-    const MaintanenceAssign = document.getElementById('MaintanenceAssign').value;
-
-    // Validate input
-    if (!MaintanenceId || !MaintanenceDescription || isNaN(MaintanenceStatus) || !MaintanenceAssign || !MaintanencePriority) {
-        alert('All fields are required!');
-        return;
-    }
-
-    // Get existing Maintanence from localStorage
-    const Maintanence = getLocalStorage(localStorageKey);
-
-    // Add the new Maintanence to the list
-    Maintanence.push({ MaintanenceId, MaintanenceDescription, MaintanenceStatus, MaintanenceAssign, MaintanencePriority });
-    setLocalStorage(localStorageKey, Maintanence);
-
-    // Update the table
-    loadMaintanences();
-
-    // Clear the form
-    document.getElementById('addMaintanenceForm').reset();
+// Add a new maintenance task
+function addMaintenance() {
+    const modal = {
+        id: Date.now(),
+        description: '',
+        status: 'Pending',
+        assignedTo: 'John',
+    };
+    const maintenances = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    maintenances.push(modal);
+    saveMaintenances(maintenances);
+    loadMaintenances();
 }
 
-// Initialize and load data on page load
-document.addEventListener('DOMContentLoaded', () => {
-    initializeMaintanenceData();
-    loadMaintanences();
-});
+// Save maintenance tasks to localStorage
+function saveMaintenances(maintenances) {
+    localStorage.setItem(localStorageKey, JSON.stringify(maintenances));
+}
+
+// Initialize the maintenance table
+document.addEventListener('DOMContentLoaded', loadMaintenances);
