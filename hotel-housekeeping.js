@@ -19,9 +19,7 @@ function setLocalStorage(key, value) {
 
 function initializeValues() {
     const rooms = [];
-    for (let i = 0; i < 20; i++) {
-        rooms.push
-    }
+    rooms.push
 
 
     const tasks = [];
