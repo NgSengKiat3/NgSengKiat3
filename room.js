@@ -1,4 +1,3 @@
-// Global variable to store the room being edited
 let modalRoom = undefined;
 
 // Load room data into the table
@@ -22,8 +21,8 @@ function loadRooms() {
         roomNameInput.className = 'form-control';
         roomNameInput.addEventListener('change', (event) => {
             room.name = event.target.value;
-            // Update modalRoom when the user changes the name
             modalRoom = room;
+            onSaveRoom();
         });
         roomNameCell.appendChild(roomNameInput);
 
@@ -42,6 +41,7 @@ function loadRooms() {
         roomTypeDropdown.addEventListener('change', (event) => {
             room.type = event.target.value;
             modalRoom = room;
+            onSaveRoom();
         });
         roomTypeCell.appendChild(roomTypeDropdown);
 
@@ -59,32 +59,41 @@ function loadRooms() {
         roomStatusDropdown.addEventListener('change', (event) => {
             room.status = event.target.value;
             modalRoom = room;
+            onSaveRoom();
         });
         roomStatusCell.appendChild(roomStatusDropdown);
+        
     });
 }
 
 // Add a new room (reset modal fields)
 function onAddRoom() {
-    modalRoom = { id: Date.now(), name: '', type: 'Single', status: 'Available' }; // Initialize with default values
+    modalRoom = undefined; // Reset modalRoom for a new addition
     document.querySelector('#roomModalLabel').textContent = 'Add Room';
     document.querySelector('#room-name').value = '';
-    document.querySelector('#room-type').value = 'Single';
-    document.querySelector('#room-status').value = 'Available';
+    document.querySelector('#room-type').value = '';
+    document.querySelector('#room-status').value = '';
 }
 
 // Save room (add or update)
 function onSaveRoom() {
+    console.log('save');
+
     const rooms = getLocalStorage(localStorageKeys.room);
-    
-    // If modalRoom is not set, that means we are adding a new room
-    if (!modalRoom.id) {
+
+    if (!modalRoom) {
         // Adding a new room
         const newRoomName = document.querySelector('#room-name').value;
         const newRoomType = document.querySelector('#room-type').value;
         const newRoomStatus = document.querySelector('#room-status').value;
 
-        let id = rooms.length ? rooms[rooms.length - 1].id + 1 : 1; // Increment ID based on existing rooms
+        let id = 1;
+        rooms.forEach(room => {
+            if (room.id >= id) {
+                id = room.id + 1;
+            }
+        });
+
         rooms.push({
             id: id,
             name: newRoomName,
@@ -95,14 +104,14 @@ function onSaveRoom() {
         // Editing an existing room
         const roomToUpdate = rooms.find(room => room.id === modalRoom.id);
         if (roomToUpdate) {
-            roomToUpdate.name = document.querySelector('#room-name').value; // Update the room name
-            roomToUpdate.type = document.querySelector('#room-type').value; // Update the room type
-            roomToUpdate.status = document.querySelector('#room-status').value; // Update the room status
+            roomToUpdate.name = modalRoom.name; // Update the room name
+            roomToUpdate.type = modalRoom.type; // Update the room type
+            roomToUpdate.status = modalRoom.status; // Update the room status
         }
     }
 
     setLocalStorage(localStorageKeys.room, rooms);
-    loadRooms(); // Reload rooms after saving
+    loadRooms();
 }
 
 // Initialize and load data on page load
