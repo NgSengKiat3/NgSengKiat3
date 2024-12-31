@@ -5,7 +5,7 @@ let modalinventory = undefined;
 function loadinventory() {
     const inventorys = getLocalStorage(localStorageKeys.inventory);
 
-    const tableBody = document.querySelector('inventory-table tbody');
+    const tableBody = document.querySelector('#inventory-table tbody');
     tableBody.innerHTML = ''; // Clear the table before loading new data
 
     Object.entries(inventorys).forEach(([inventory, quantity]) => {
