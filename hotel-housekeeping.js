@@ -37,6 +37,9 @@ function initializeValues() {
 
     const staff = [{ id: 1, name: 'John' }, { id: 2, name: 'Doe' }];
     initializeIfNotSet(localStorageKeys.staff, staff);
+
+    const technician = [];
+    initializeIfNotSet(localStorageKeys.technician, technician)
 }
 
 
