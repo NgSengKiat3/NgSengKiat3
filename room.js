@@ -15,16 +15,7 @@ function loadRooms() {
 
         // Room Name (editable input)
         const roomNameCell = newRow.insertCell();
-        const roomNameInput = document.createElement('input');
-        roomNameInput.type = 'text';
-        roomNameInput.value = room.name;
-        roomNameInput.className = 'form-control';
-        roomNameInput.addEventListener('change', (event) => {
-            room.name = event.target.value;
-            modalRoom = room;
-            onSaveRoom();
-        });
-        roomNameCell.appendChild(roomNameInput);
+        roomNameCell.textContent = room.name;
 
         // Room Type (dropdown)
         const roomTypeCell = newRow.insertCell();
