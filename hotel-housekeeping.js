@@ -20,16 +20,13 @@ function setLocalStorage(key, value) {
 function initializeValues() {
     const rooms = [];
     rooms.push
-    initializeIfNotSet(localStorageKeys.room,rooms)
+
 
 
     const tasks = [];
     initializeIfNotSet(localStorageKeys.task, tasks);
 
-    const inventory = {
-        towel: 100,
-        toothbrush: 200,
-    };
+    const inventory = [{ id: 1, inventory: 100 }, { id: 2, inventory: 50 }];
     initializeIfNotSet(localStorageKeys.inventory, inventory);
 
     const maintanence = [];
