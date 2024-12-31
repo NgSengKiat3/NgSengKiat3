@@ -1,4 +1,3 @@
-
 let modalStaff = undefined;
 
 // Load staff data into the table
