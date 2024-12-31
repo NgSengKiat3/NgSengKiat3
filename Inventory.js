@@ -5,25 +5,20 @@ let modalinventory = undefined;
 function loadinventory() {
     const inventorys = getLocalStorage(localStorageKeys.inventory);
 
-    const tableBody = document.querySelector('table tbody');
+    const tableBody = document.querySelector('inventory-table tbody');
     tableBody.innerHTML = ''; // Clear the table before loading new data
 
-    Object.entries(inventorys).forEach(([inventory,quantity]) => {
+    Object.entries(inventorys).forEach(([inventory, quantity]) => {
         console.log('${inventory} ${quantity}')
         const newRow = tableBody.insertRow();
 
+        // inventory ID (editable input)
+        const inventoryIDCell = newRow.insertCell();
+        inventoryIDCell.textContent = inventory.ID;
+
         // inventory Name (editable input)
-        const inventoryNameCell = newRow.insertCell();
-        const inventoryNameInput = document.createElement('input');
-        inventoryNameInput.type = 'text';
-        inventoryNameInput.value = inventory.name;
-        inventoryNameInput.className = 'form-control';
-        inventoryNameInput.addEventListener('change', (event) => {
-            inventory.name = event.target.value;
-            modalinventory = inventory;
-            onSaveinventory();
-        });
-        inventoryNameCell.appendChild(inventoryNameInput);
+        const inventoryNameeCell = newRow.insertCell();
+        inventoryNameeCell.textContent = inventory.name;
 
         // inventory Quantity (editable input)
         const inventoryQuantityCell = newRow.insertCell();
@@ -75,6 +70,16 @@ function loadinventory() {
             onSaveinventory();
         });
         inventoryRestockCell.appendChild(inventoryRestockDropdown);
+
+        // Delete Button
+        const deleteCell = newRow.insertCell();
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'btn btn-danger btn-sm';
+        deleteButton.addEventListener('click', () => {
+            deleteInventory(task.id, tasks);
+        });
+        deleteCell.appendChild(deleteButton);
     });
 }
 
@@ -120,6 +125,12 @@ function onSaveinventory() {
 
     setLocalStorage(localStorageKeys.inventory, inventorys);
     loadinventory();
+}
+
+// Delete a task
+function deleteInventory(inventoryIDCell, inventorys) {
+    const updatedInventory = tasks.filter(inventorys => inventoryIDCell !== inventorys);
+    onSaveinventory(updatedInventory); // Save the updated list of tasks
 }
 
 // Initialize and load data on page load

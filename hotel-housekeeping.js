@@ -24,13 +24,13 @@ function initializeValues() {
     const tasks = [];
     initializeIfNotSet(localStorageKeys.task, tasks);
 
-    const inventory = [{ id: 1, inventory: 100 }, { id: 2, inventory: 50 }];
+    const inventory = [];
     initializeIfNotSet(localStorageKeys.inventory, inventory);
 
     const maintanence = [];
     initializeIfNotSet(localStorageKeys.maintanence, maintanence);
 
-    const staff = [{ id: 1, name: 'John' }, { id: 2, name: 'Doe' }];
+    const staff = [];
     initializeIfNotSet(localStorageKeys.staff, staff);
 
     const technician = [];
