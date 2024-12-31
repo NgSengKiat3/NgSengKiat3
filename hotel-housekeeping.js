@@ -1,4 +1,3 @@
-
 const localStorageKeys = {
     staff: 'staff',
     room: 'room',
