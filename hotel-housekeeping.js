@@ -4,7 +4,8 @@ const localStorageKeys = {
     task: 'task',
     feedback: 'feedback',
     inventory: 'inventory',
-    maintanence: 'maintanence'
+    maintanence: 'maintanence',
+    technician: 'technician'
 }
 
 function getLocalStorage(key) {
@@ -19,7 +20,7 @@ function setLocalStorage(key, value) {
 function initializeValues() {
     const rooms = [];
     for (let i = 0; i < 20; i++) {
-        rooms.push(`Room ${i}`)
+        rooms.push(`room ${i}`)
     }
 
 

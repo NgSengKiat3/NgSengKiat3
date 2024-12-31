@@ -94,9 +94,6 @@ function addTask() {
     }
     document.querySelector('#taskID').value = id; // Set the new task ID
 
-    // Open the modal to add a new task
-    const taskModal = new bootstrap.Modal(document.getElementById('roomModal'));
-    taskModal.show();
 }
 
 // Save task to localStorage
@@ -123,9 +120,6 @@ function saveTask() {
     // Save updated tasks list
     saveTasks(tasks);
 
-    // Close the modal after saving
-    const taskModal = new bootstrap.Modal(document.getElementById('roomModal'));
-    taskModal.hide();
 }
 
 // Delete a task
