@@ -83,7 +83,7 @@ function onAddinventory() {
 }
 
 // Save inventory
-function onSaveinventory(inventoryList = []) {
+function onSaveinventory(Inventory = []) {
     const inventoryID = document.querySelector("#inventoryID").value;
     const inventoryName = document.querySelector('#inventoryName').value;
     const inventoryQuantity = document.querySelector('#inventoryQuantity').value;
@@ -99,7 +99,7 @@ function onSaveinventory(inventoryList = []) {
             location: inventoryLocation,
             restock: inventoryRestock,
         };
-        inventoryList.push(newInventory);
+        Inventory.push(newInventory);
     } else {
         // Update existing inventory
         modalinventory.id = inventoryID;
@@ -109,13 +109,13 @@ function onSaveinventory(inventoryList = []) {
         modalinventory.restock = inventoryRestock;
     }
 
-    setLocalStorage(localStorageKeys.Inventory, inventoryList); // Save updated inventory to localStorage
+    setLocalStorage(localStorageKeys.inventory, Inventory); // Save updated inventory to localStorage
     loadinventory(); // Reload table
 }
 
 // Delete a task
-function deleteInventory(inventoryID, inventoryList) {
-    const updatedInventory = inventoryList.filter((inventory) => inventory.id !== inventoryID);
+function deleteInventory(inventoryID, Inventory) {
+    const updatedInventory = Inventory.filter((inventory) => inventory.id !== inventoryID);
     setLocalStorage(localStorageKeys.Inventory, updatedInventory); // Save updated inventory
     loadinventory(); // Reload table
 }
@@ -125,6 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadinventory();
 
     document.querySelector('#btn-add-room').addEventListener('click', onAddinventory);
-    onSaveinventory(Inventory);
+
 });
 
