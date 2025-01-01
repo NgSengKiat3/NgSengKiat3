@@ -136,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener for the Add Task button
     document.querySelector('#btn-add-room').addEventListener('click', addTask);
 
-    // Event listener for the Save Task button inside the modal
-    document.querySelector('#save-task-button').addEventListener('click', saveTask);
+
 });
 
