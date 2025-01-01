@@ -2,7 +2,7 @@ let modalinventory = undefined;
 
 // Load inventory data into the table
 function loadinventory() {
-    const Inventory = getLocalStorage(localStorageKeys.Inventory) || []; // Ensure an empty array if no data
+    const Inventory = getLocalStorage(localStorageKeys.inventory) || []; // Ensure an empty array if no data
     /**
      * @type {HTMLTableSectionElement}
      */
@@ -116,7 +116,7 @@ function onSaveinventory(Inventory = []) {
 // Delete a task
 function deleteInventory(inventoryID, Inventory) {
     const updatedInventory = Inventory.filter((inventory) => inventory.id !== inventoryID);
-    setLocalStorage(localStorageKeys.Inventory, updatedInventory); // Save updated inventory
+    setLocalStorage(localStorageKeys.inventory, updatedInventory); // Save updated inventory
     loadinventory(); // Reload table
 }
 
