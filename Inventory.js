@@ -75,15 +75,16 @@ function loadinventory() {
 // Add new inventory
 function onAddinventory() {
     modalinventory = undefined;
-
+    document.querySelector('#inventoryID').value = '';
     document.querySelector('#inventoryName').value = '';
     document.querySelector('#inventoryQuantity').value = '';
-    document.querySelector('#inventoryLocation').value = ''; // Default value
-    document.querySelector('#inventoryRestock').value = 'John'; // Default value
+    document.querySelector('#inventoryLocation').value = ''; 
+    document.querySelector('#inventoryRestock').value = ''; 
 }
 
 // Save inventory
 function onSaveinventory(inventoryList = []) {
+    const inventoryID = document.querySelector("#inventoryID").value;
     const inventoryName = document.querySelector('#inventoryName').value;
     const inventoryQuantity = document.querySelector('#inventoryQuantity').value;
     const inventoryLocation = document.querySelector('#inventoryLocation').value;
@@ -92,7 +93,7 @@ function onSaveinventory(inventoryList = []) {
     if (!modalinventory) {
         // Add new inventory
         const newInventory = {
-            id: Date.now(), // Unique ID based on timestamp
+            id: parseInt(inventoryID),
             name: inventoryName,
             quantity: inventoryQuantity,
             location: inventoryLocation,
@@ -101,6 +102,7 @@ function onSaveinventory(inventoryList = []) {
         inventoryList.push(newInventory);
     } else {
         // Update existing inventory
+        modalinventory.id = inventoryID;
         modalinventory.name = inventoryName;
         modalinventory.quantity = inventoryQuantity;
         modalinventory.location = inventoryLocation;
@@ -123,9 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadinventory();
 
     document.querySelector('#btn-add-room').addEventListener('click', onAddinventory);
-    document.querySelector('#btn-save-inventory').addEventListener('click', () => {
-        const Inventory = getLocalStorage(localStorageKeys.Inventory) || [];
-        onSaveinventory(Inventory);
-    });
+    onSaveinventory(Inventory);
 });
 
