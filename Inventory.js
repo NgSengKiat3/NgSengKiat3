@@ -78,16 +78,16 @@ function onAddinventory() {
 
     document.querySelector('#inventoryName').value = '';
     document.querySelector('#inventoryQuantity').value = '';
-    document.querySelector('#taskinventoryLocation').value = 'Storage Room A'; // Default value
-    document.querySelector('#Assigned').value = 'John'; // Default value
+    document.querySelector('#inventoryLocation').value = ''; // Default value
+    document.querySelector('#inventoryRestock').value = 'John'; // Default value
 }
 
 // Save inventory
 function onSaveinventory(inventoryList = []) {
     const inventoryName = document.querySelector('#inventoryName').value;
     const inventoryQuantity = document.querySelector('#inventoryQuantity').value;
-    const inventoryLocation = document.querySelector('#taskinventoryLocation').value;
-    const inventoryRestock = document.querySelector('#Assigned').value;
+    const inventoryLocation = document.querySelector('#inventoryLocation').value;
+    const inventoryRestock = document.querySelector('#inventoryRestock').value;
 
     if (!modalinventory) {
         // Add new inventory
