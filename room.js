@@ -13,7 +13,7 @@ function loadRooms() {
     rooms.forEach(room => {
         const newRow = tableBody.insertRow();
 
-        // Room Name (editable input)
+        // Room Name 
         const roomNameCell = newRow.insertCell();
         roomNameCell.textContent = room.name;
 

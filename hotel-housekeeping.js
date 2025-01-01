@@ -24,8 +24,8 @@ function initializeValues() {
     const tasks = [];
     initializeIfNotSet(localStorageKeys.task, tasks);
 
-    const inventory = [];
-    initializeIfNotSet(localStorageKeys.inventory, inventory);
+    const Inventory = [];
+    initializeIfNotSet(localStorageKeys.inventory, Inventory);
 
     const maintanence = [];
     initializeIfNotSet(localStorageKeys.maintanence, maintanence);
