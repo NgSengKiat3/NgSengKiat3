@@ -12,7 +12,7 @@ function loadTask() {
     tasks.forEach((task) => {
         const newRow = tableBody.insertRow();
 
-        // Task Description
+        // Task Description(edible)
         const taskDescriptionCell = newRow.insertCell();
         const taskDescriptionInput = document.createElement('input');
         taskDescriptionInput.type ='text';

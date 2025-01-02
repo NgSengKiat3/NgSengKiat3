@@ -73,11 +73,11 @@ function loadFeedback() {
         const feedbackFOURCell = newRow.insertCell();
         const feedbackFOURInput = document.createElement('input');
         feedbackFOURInput.type = 'text';
-        feedbackFOURInput.value = task.description || '';
+        feedbackFOURInput.value = feedback.q4 || '';
         feedbackFOURInput.addEventListener('change', (event) => {
             feedback.q4 = event.target.value;
             modalfeedback = feedback;
-            saveTask();
+            onSaveFeedback();
         });
         feedbackFOURCell.appendChild(feedbackFOURInput);
 
