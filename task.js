@@ -1,6 +1,6 @@
 let modalTask = undefined;
 
-// Load inventory data into the table
+// Load task data into the table
 function loadTask() {
     const tasks = getLocalStorage(localStorageKeys.task) || []; // Ensure an empty array if no data
     /**
@@ -12,19 +12,19 @@ function loadTask() {
     tasks.forEach((task) => {
         const newRow = tableBody.insertRow();
 
-        // Inventory Description
+        // Task Description
         const taskDescriptionCell = newRow.insertCell();
         const taskDescriptionInput = document.createElement('input');
         taskDescriptionInput.type ='text';
-        taskDescriptionInput.value = task.quantity || '';
+        taskDescriptionInput.value = task.description || '';
         taskDescriptionInput.addEventListener('change', (event) => {
-            task.quantity = event.target.value;
+            task.description = event.target.value;
             modalTask = task;
             saveTask();
         });
         taskDescriptionCell.appendChild(taskDescriptionInput);
 
-        // Inventory Status (dropdown)
+        // Task Status (dropdown)
         const taskStatusCell = newRow.insertCell();
         const taskStatusDropdown = document.createElement('select');
         taskStatusDropdown.className = 'form-select';
@@ -43,7 +43,7 @@ function loadTask() {
         });
         taskStatusCell.appendChild(taskStatusDropdown);
 
-        // Inventory Assigned to (dropdown)
+        // Task AssignedTo (dropdown)
         const taskAssignToCell = newRow.insertCell();
         const taskAssignToDropdown = document.createElement('select');
         taskAssignToDropdown.className = 'form-select';
@@ -75,14 +75,14 @@ function loadTask() {
     });
 }
 
-// Add new inventory
+// Add new task
 function addTask() {
     modalTask = undefined;
     document.querySelector('#description').value = '';
     document.querySelector('#taskStatus').value = '';
     document.querySelector('#Assigned').value = '';
 
-    // The inventory ID will be automatically assigned once the inventory is saved
+    // The task ID will be automatically assigned once the task is saved
     const tasks = getLocalStorage(localStorageKeys.task);
     let id = 1;
     if (tasks.length > 0) {
@@ -90,7 +90,7 @@ function addTask() {
     }
 }
 
-// Save inventory
+// Save task (add or update)
 function saveTask() {
 
     const tasks = getLocalStorage(localStorageKeys.task);
@@ -98,7 +98,7 @@ function saveTask() {
 
 
     if (!modalTask) {
-        // Add new inventory
+        // Add new task
         const taskDescription = document.querySelector('#description').value;
         const taskStatus = document.querySelector('#taskStatus').value;
         const taskAssigned = document.querySelector('#Assigned').value;
@@ -116,26 +116,27 @@ function saveTask() {
             assign: taskAssigned,
         });
     } else {
-        // Editing an existing room
+        // Editing existing task
         const taskUpdate = tasks.find(task => task.id === modalTask.id);
         if (taskUpdate) {
-            taskUpdate.description = modalTask.description; // Update the room name
-            taskUpdate.status = modalTask.status; // Update the room type
-            taskUpdate.assign = modalTask.assign; // Update the room location
+            taskUpdate.description = modalTask.description; // Update the task description
+            taskUpdate.status = modalTask.status; // Update the task status
+            taskUpdate.assign = modalTask.assign; // Update the task assignedTo
         }
     }
 
-    setLocalStorage(localStorageKeys.task, tasks); // Save updated inventory to localStorage
+    setLocalStorage(localStorageKeys.task, tasks); // Save updated task to localStorage
     loadTask(); // Reload table
 }
 
 // Delete a task
 function deleteTask(taskID, tasks) {
     const updatedTask = tasks.filter((task) => task.id !== taskID);
-    setLocalStorage(localStorageKeys.task, updatedTask); // Save updated inventory
+    setLocalStorage(localStorageKeys.task, updatedTask); // Save updated task
     loadTask(); // Reload table
 }
  
+//load staff data from localstorage
 function loadStaff() {
     const staffs = getLocalStorage(localStorageKeys.staff);
     const dropdown = document.querySelector('#Assigned')
@@ -153,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadStaff();
     
 
-    document.querySelector('#btn-add-room').addEventListener('click', addTask);
+    document.querySelector('#btn-add-task').addEventListener('click', addTask);
 
 });
 

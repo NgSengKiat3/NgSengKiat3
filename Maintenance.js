@@ -1,6 +1,6 @@
 let modalmaintenance = undefined;
 
-// Load room data into the table
+// Load maintenance data into the table
 function loadmaintenance() {
     const maintanences = getLocalStorage(localStorageKeys.maintenance);
 
@@ -13,11 +13,11 @@ function loadmaintenance() {
     maintanences.forEach(maintenance => {
         const newRow = tableBody.insertRow();
 
-        // Room Description
+        // Maintenance Description
         const maintenanceDescription = newRow.insertCell();
         maintenanceDescription.textContent = maintenance.description;
 
-        // Room Status(dropdown)
+        // Maintenance Status(dropdown)
         const maintenaceStatusCell = newRow.insertCell();
         const maintenanceStatusDropdown = document.createElement('select');
         maintenanceStatusDropdown.classdescription = 'form-select';
@@ -36,7 +36,7 @@ function loadmaintenance() {
         });
         maintenaceStatusCell.appendChild(maintenanceStatusDropdown);
 
-        // Room Assigned (dropdown)
+        // Maintenance Assigned (dropdown)
         const maintenanceAssignedCell = newRow.insertCell();
         const maintenanceAssignedDropdown = document.createElement('select');
         maintenanceAssignedDropdown.className = 'form-select';
@@ -69,15 +69,15 @@ function loadmaintenance() {
     });
 }
 
-// Add a new room (reset modal fields)
+// Add a new maintenance (reset modal fields)
 function addMaintenance() {
-    modalmaintenance = undefined; // Reset modalRoom for a new addition
+    modalmaintenance = undefined; // Reset modalmaintenance for a new addition
     document.querySelector('#maintenanceModalLabel').textContent = 'Add Maintenance';
     document.querySelector('#maintenanceDescription').value = '';
     document.querySelector('#maintenanceStatus').value = '';
     document.querySelector('#assignedTo').value = '';
 
-    // The inventory ID will be automatically assigned once the inventory is saved
+    // The maintenance ID will be automatically assigned once the maintenance is saved
     const maintenances = getLocalStorage(localStorageKeys.maintenance);
     let id = 1;
     if (maintenances.length > 0) {
@@ -85,14 +85,14 @@ function addMaintenance() {
     }
 }
 
-// Save room (add or update)
+// Save maintenance (add or update)
 function saveMaintenance() {
     console.log('save');
 
     const maintenances = getLocalStorage(localStorageKeys.maintenance);
 
     if (!modalmaintenance) {
-        // Adding a new room
+        // Adding a new maintenance
         const newMaintenanceDescription = document.querySelector('#maintenanceDescription').value;
         const newMaintenanceStatus = document.querySelector('#maintenanceStatus').value;
         const newAssignedTo = document.querySelector('#assignedTo').value;
@@ -111,12 +111,12 @@ function saveMaintenance() {
             assigned: newAssignedTo
         });
     } else {
-        // Editing an existing room
+        // Editing an existing maintenance
         const maintenanceToUpdate = maintenances.find(maintenance => maintenance.id === modalmaintenance.id);
         if (maintenanceToUpdate) {
-            maintenanceToUpdate.description = modalmaintenance.description; // Update the room description
-            maintenanceToUpdate.status = modalmaintenance.status; // Update the room status
-            maintenanceToUpdate.assigned = modalmaintenance.assigned; // Update the room type
+            maintenanceToUpdate.description = modalmaintenance.description; // Update the maintenance description
+            maintenanceToUpdate.status = modalmaintenance.status; // Update the maintenance status
+            maintenanceToUpdate.assigned = modalmaintenance.assigned; // Update the maintenance assignedTo
         }
     }
 
@@ -124,13 +124,14 @@ function saveMaintenance() {
     loadmaintenance();
 }
 
-// Delete a task
+// Delete maintenance
 function deleteMaintenance(maintenanceID, maintenances) {
     const updatedMaintenances = maintenances.filter((maintenance) => maintenance.id !== maintenanceID);
-    setLocalStorage(localStorageKeys.maintenance, updatedMaintenances); // Save updated inventory
+    setLocalStorage(localStorageKeys.maintenance, updatedMaintenances); // Save updated maintenance
     loadmaintenance(); // Reload table
 }
 
+// Load technician from localstorage
 function loadTechnician() {
     const technicians = getLocalStorage(localStorageKeys.technician);
     const dropdown = document.querySelector('#assignedTo')

@@ -34,7 +34,7 @@ function loadinventory() {
         const inventoryLocationCell = newRow.insertCell();
         const inventoryLocationDropdown = document.createElement('select');
         inventoryLocationDropdown.className = 'form-select';
-        ['Storage Room A', 'Storage Room B', 'Storage Room C'].forEach((location) => {
+        ['Storage inventory A', 'Storage inventory B', 'Storage inventory C'].forEach((location) => {
             const option = document.createElement('option');
             option.value = location;
             option.textContent = location;
@@ -126,12 +126,12 @@ function onSaveinventory() {
             restock: inventoryRestock
         });
     } else {
-        // Editing an existing room
+        // Editing an existing inventory
         const inventoryUpdate = Inventory.find(inventory => inventory.id === modalinventory.id);
         if (inventoryUpdate) {
-            inventoryUpdate.name = modalinventory.name; // Update the room name
-            inventoryUpdate.quantity = modalinventory.quantity; // Update the room type
-            inventoryUpdate.location = modalinventory.location; // Update the room location
+            inventoryUpdate.name = modalinventory.name; // Update the inventory name
+            inventoryUpdate.quantity = modalinventory.quantity; // Update the inventory type
+            inventoryUpdate.location = modalinventory.location; // Update the inventory location
             inventoryUpdate.restock = modalinventory.restock; // Update the inventory restock
         }
     }
@@ -140,7 +140,7 @@ function onSaveinventory() {
     loadinventory(); // Reload table
 }
 
-// Delete a task
+// Delete inventory
 function deleteInventory(inventoryID, Inventory) {
     const updatedInventory = Inventory.filter((inventory) => inventory.id !== inventoryID);
     setLocalStorage(localStorageKeys.inventory, updatedInventory); // Save updated inventory
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadStaff();
     
 
-    document.querySelector('#btn-add-room').addEventListener('click', onAddinventory);
+    document.querySelector('#btn-add-inventory').addEventListener('click', onAddinventory);
 
 });
 

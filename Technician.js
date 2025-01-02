@@ -11,6 +11,8 @@ function loadtechnicians() {
 
     technicians.forEach(technician => {
         const newRow = tableBody.insertRow();
+
+        // Technician name
         const technicianNameCell = newRow.insertCell();
         technicianNameCell.textContent = technician.name;
 
@@ -43,6 +45,7 @@ function loadtechnicians() {
     });
 }
 
+//Delete technician
 function onDelete(id) {
     const technicians = getLocalStorage(localStorageKeys.technician)
     const newtechnicians = technicians.filter(technician => technician.id !== id);
@@ -51,12 +54,15 @@ function onDelete(id) {
 
 }
 
+
+//Add technician
 function onAdd() {
     modaltechnician = undefined;
     document.querySelector('#staticBackdropLabel').textContent = 'Add technician';
     document.querySelector('#name').value = '';
 }
 
+//Edit technician
 function onEdit(technician) {
     modaltechnician = technician;
     document.querySelector('#staticBackdropLabel').textContent = 'Edit technician';
@@ -64,6 +70,7 @@ function onEdit(technician) {
 
 }
 
+//Save technician (add or update)
 function onSave() {
     console.log('save');
 
@@ -90,8 +97,8 @@ function onSave() {
     }
 
 
-    setLocalStorage(localStorageKeys.technician, technicians);
-    loadtechnicians();
+    setLocalStorage(localStorageKeys.technician, technicians); //Save updated technician to localstorage
+    loadtechnicians(); //Reload table
 
 }
 

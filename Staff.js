@@ -11,10 +11,10 @@ function loadStaffs() {
 
     staffs.forEach(staff => {
         const newRow = tableBody.insertRow();
+
+        // Staff Name
         const staffNameCell = newRow.insertCell();
         staffNameCell.textContent = staff.name;
-
-
 
         //Edit button
         const actionButtonCell = newRow.insertCell();
@@ -43,6 +43,7 @@ function loadStaffs() {
     });
 }
 
+//Delete staff
 function onDelete(id) {
     const staffs = getLocalStorage(localStorageKeys.staff)
     const newStaffs = staffs.filter(staff => staff.id !== id);
@@ -51,12 +52,14 @@ function onDelete(id) {
 
 }
 
+//Add a staff (reset modal fields)
 function onAdd() {
     modalStaff = undefined;
     document.querySelector('#staticBackdropLabel').textContent = 'Add Staff';
     document.querySelector('#name').value = '';
 }
 
+//Edit staff
 function onEdit(staff) {
     modalStaff = staff;
     document.querySelector('#staticBackdropLabel').textContent = 'Edit Staff';
@@ -64,6 +67,7 @@ function onEdit(staff) {
 
 }
 
+//Save staff
 function onSave() {
     console.log('save');
 

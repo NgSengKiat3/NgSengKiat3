@@ -1,5 +1,6 @@
 let modalfeedback = undefined;
 
+// Load feedback data into the table
 function loadFeedback() {
     const Feedback = getLocalStorage(localStorageKeys.feedback);
     /**
@@ -11,6 +12,7 @@ function loadFeedback() {
     Feedback.forEach((feedback) => {
         const newRow = tableBody.insertRow();
 
+        //Feedback One(dropdown)
         const feedbackONECell = newRow.insertCell();
         const feedbackONEDropdown = document.createElement('select');
         feedbackONEDropdown.className = 'form-select';
@@ -29,6 +31,7 @@ function loadFeedback() {
         });
         feedbackONECell.appendChild(feedbackONEDropdown);
 
+        //Feedback Two(dropdown)
         const feedbackTWOCell = newRow.insertCell();
         const feedbackTWODropdown = document.createElement('select');
         feedbackTWODropdown.className = 'form-select';
@@ -47,6 +50,7 @@ function loadFeedback() {
         });
         feedbackTWOCell.appendChild(feedbackTWODropdown);
 
+        //Feedback Three(dropdown)
         const feedbackTHREECell = newRow.insertCell();
         const feedbackTHREEDropdown = document.createElement('select');
         feedbackTHREEDropdown.className = 'form-select';
@@ -65,9 +69,11 @@ function loadFeedback() {
         });
         feedbackTHREECell.appendChild(feedbackTHREEDropdown);
 
+        //Feedback Four
         const feedbackFOURCell = newRow.insertCell();
         feedbackFOURCell.textContent = feedback.q4;
 
+        //Delete button
         const deleteFeedbackCell = newRow.insertCell();
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
@@ -79,6 +85,7 @@ function loadFeedback() {
     });
 }
 
+//Add a new feedback(reset modal fields)
 function onAddFeedback() {
     modalfeedback = undefined;
     document.querySelector('#feedbackONE').value = '';
@@ -87,7 +94,7 @@ function onAddFeedback() {
     document.querySelector('#feedbackFOUR').value = '';
 
 
-    // The inventory ID will be automatically assigned once the inventory is saved
+    // The feedback ID will be automatically assigned once the feedback is saved
     const Feedback = getLocalStorage(localStorageKeys.feedback);
     let id = 1;
     if (Feedback.length > 0) {
@@ -99,7 +106,7 @@ function onSaveFeedback() {
     const Feedback = getLocalStorage(localStorageKeys.feedback);
 
     if (!modalfeedback) {
-        // Add new inventory
+        // Add new feedback
         const feedbackQ1 = document.querySelector('#feedbackONE').value;
         const feedbackQ2 = document.querySelector('#feedbackTWO').value;
         const feedbackQ3 = document.querySelector('#feedbackTHREE').value;
@@ -119,24 +126,24 @@ function onSaveFeedback() {
             q4: feedbackQ4
         });
     } else {
-        // Editing an existing room
+        // Editing an existing feedback
         const feedbackUpdate = Feedback.find(feedback => feedback.id === modalfeedback.id);
         if (feedbackUpdate) {
             feedbackUpdate.q1 = modalfeedback.q1; // Update the room q1
             feedbackUpdate.q2 = modalfeedback.q2; // Update the room type
             feedbackUpdate.q3 = modalfeedback.q3; // Update the room location
-            feedbackUpdate.q4 = modalfeedback.q4; // Update the inventory restock
+            feedbackUpdate.q4 = modalfeedback.q4; // Update the feedback restock
         }
     }
 
-    setLocalStorage(localStorageKeys.feedback, Feedback); // Save updated inventory to localStorage
+    setLocalStorage(localStorageKeys.feedback, Feedback); // Save updated feedback to localStorage
     loadFeedback(); // Reload table
 }
 
-// Delete a task
+// Delete feedback
 function deleteFeedback(feedbackID, Feedback) {
     const updatedFeedback = Feedback.filter((feedback) => feedback.id !== feedbackID);
-    setLocalStorage(localStorageKeys.feedback, updatedFeedback); // Save updated inventory
+    setLocalStorage(localStorageKeys.feedback, updatedFeedback); // Save updated feedback
     loadFeedback(); // Reload table
 }
 
