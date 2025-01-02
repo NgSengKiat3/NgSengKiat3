@@ -1,4 +1,4 @@
-let modalRoom = undefined;
+let modalmaintenance = undefined;
 
 // Load room data into the table
 function loadRooms() {
@@ -31,8 +31,8 @@ function loadRooms() {
 
         roomTypeDropdown.addEventListener('change', (event) => {
             room.type = event.target.value;
-            modalRoom = room;
-            onSaveRoom();
+            modalmaintenance = room;
+            saveMaintenance();
         });
         roomTypeCell.appendChild(roomTypeDropdown);
 
@@ -49,8 +49,8 @@ function loadRooms() {
         });
         roomStatusDropdown.addEventListener('change', (event) => {
             room.status = event.target.value;
-            modalRoom = room;
-            onSaveRoom();
+            modalmaintenance = room;
+            saveMaintenance();
         });
         roomStatusCell.appendChild(roomStatusDropdown);
         
@@ -58,8 +58,8 @@ function loadRooms() {
 }
 
 // Add a new room (reset modal fields)
-function onAddRoom() {
-    modalRoom = undefined; // Reset modalRoom for a new addition
+function addMaintenance() {
+    modalmaintenance = undefined; // Reset modalRoom for a new addition
     document.querySelector('#roomModalLabel').textContent = 'Add Room';
     document.querySelector('#room-name').value = '';
     document.querySelector('#room-type').value = '';
@@ -67,12 +67,12 @@ function onAddRoom() {
 }
 
 // Save room (add or update)
-function onSaveRoom() {
+function saveMaintenance() {
     console.log('save');
 
     const rooms = getLocalStorage(localStorageKeys.room);
 
-    if (!modalRoom) {
+    if (!modalmaintenance) {
         // Adding a new room
         const newRoomName = document.querySelector('#room-name').value;
         const newRoomType = document.querySelector('#room-type').value;
@@ -93,11 +93,11 @@ function onSaveRoom() {
         });
     } else {
         // Editing an existing room
-        const roomToUpdate = rooms.find(room => room.id === modalRoom.id);
+        const roomToUpdate = rooms.find(room => room.id === modalmaintenance.id);
         if (roomToUpdate) {
-            roomToUpdate.name = modalRoom.name; // Update the room name
-            roomToUpdate.type = modalRoom.type; // Update the room type
-            roomToUpdate.status = modalRoom.status; // Update the room status
+            roomToUpdate.name = modalmaintenance.name; // Update the room name
+            roomToUpdate.type = modalmaintenance.type; // Update the room type
+            roomToUpdate.status = modalmaintenance.status; // Update the room status
         }
     }
 

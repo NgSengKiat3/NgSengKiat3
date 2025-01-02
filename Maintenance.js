@@ -1,88 +1,151 @@
-const localStorageKey = 'maintenances';
+let modalmaintenance = undefined;
 
-// Load maintenance tasks
-function loadMaintenances() {
-    const maintenances = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+// Load room data into the table
+function loadmaintenance() {
+    const maintanences = getLocalStorage(localStorageKeys.maintenance);
+
+    /**
+     * @type {HTMLTableSectionElement}
+     */
     const tableBody = document.querySelector('#maintenance-table tbody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // Clear the table before loading new data
 
-    maintenances.forEach((maintenance) => {
-        const row = tableBody.insertRow();
+    maintanences.forEach(maintenance => {
+        const newRow = tableBody.insertRow();
 
-        row.insertCell(0).textContent = maintenance.id;
-        const descriptionCell = row.insertCell(1);
-        const statusCell = row.insertCell(2);
-        const assignedCell = row.insertCell(3);
-        const actionCell = row.insertCell(4);
+        // Room Description
+        const maintenanceDescription = newRow.insertCell();
+        maintenanceDescription.textContent = maintenance.description;
 
-        const descriptionInput = document.createElement('input');
-        descriptionInput.type = 'text';
-        descriptionInput.value = maintenance.description;
-        descriptionInput.addEventListener('change', () => {
-            maintenance.description = descriptionInput.value;
-            saveMaintenances(maintenances);
-        });
-        descriptionCell.appendChild(descriptionInput);
-
-        const statusSelect = document.createElement('select');
-        ['Pending', 'In Progress', 'Completed'].forEach((status) => {
+        // Room Status(dropdown)
+        const maintenaceStatusCell = newRow.insertCell();
+        const maintenanceStatusDropdown = document.createElement('select');
+        maintenanceStatusDropdown.classdescription = 'form-select';
+        ['Pending', 'In Progress', 'Completed'].forEach(status => {
             const option = document.createElement('option');
             option.value = status;
             option.textContent = status;
-            if (maintenance.status === status) option.selected = true;
-            statusSelect.appendChild(option);
+            if (status === maintenance.status) option.selected = true;
+            maintenanceStatusDropdown.appendChild(option);
         });
-        statusSelect.addEventListener('change', () => {
-            maintenance.status = statusSelect.value;
-            saveMaintenances(maintenances);
-        });
-        statusCell.appendChild(statusSelect);
 
-        const assignedSelect = document.createElement('select');
-        ['John', 'Doe', 'Jane'].forEach((person) => {
-            const option = document.createElement('option');
-            option.value = person;
-            option.textContent = person;
-            if (maintenance.assignedTo === person) option.selected = true;
-            assignedSelect.appendChild(option);
+        maintenanceStatusDropdown.addEventListener('change', (event) => {
+            maintenance.status = event.target.value;
+            modalmaintenance = maintenance;
+            saveMaintenance();
         });
-        assignedSelect.addEventListener('change', () => {
-            maintenance.assignedTo = assignedSelect.value;
-            saveMaintenances(maintenances);
-        });
-        assignedCell.appendChild(assignedSelect);
+        maintenaceStatusCell.appendChild(maintenanceStatusDropdown);
 
+        // Room Assigned (dropdown)
+        const maintenanceAssignedCell = newRow.insertCell();
+        const maintenanceAssignedDropdown = document.createElement('select');
+        maintenanceAssignedDropdown.className = 'form-select';
+        getLocalStorage(localStorageKeys.technician)
+            .map(technician => technician.name)
+            .forEach((assigned) => {
+                const option = document.createElement('option');
+                option.value = assigned;
+                option.textContent = assigned;
+                if (assigned === maintenance.assigned) option.selected = true;
+                maintenanceAssignedDropdown.appendChild(option);
+            });
+
+        maintenanceAssignedDropdown.addEventListener('change', (event) => {
+            maintenance.assigned = event.target.value;
+            modalmaintenance = maintenance;
+            saveMaintenance();
+        });
+        maintenanceAssignedCell.appendChild(maintenanceAssignedDropdown);
+
+        // Delete Button
+        const deleteMaintenanceCell = newRow.insertCell();
         const deleteButton = document.createElement('button');
-        deleteButton.className = 'btn btn-danger';
         deleteButton.textContent = 'Delete';
+        deleteButton.className = 'btn btn-danger btn-sm';
         deleteButton.addEventListener('click', () => {
-            const index = maintenances.indexOf(maintenance);
-            maintenances.splice(index, 1);
-            saveMaintenances(maintenances);
-            loadMaintenances();
+            deleteMaintenance(maintenance.id, maintanences);
         });
-        actionCell.appendChild(deleteButton);
+        deleteMaintenanceCell.appendChild(deleteButton);
     });
 }
 
-// Add a new maintenance task
+// Add a new room (reset modal fields)
 function addMaintenance() {
-    const modal = {
-        id: Date.now(),
-        description: '',
-        status: 'Pending',
-        assignedTo: 'John',
-    };
-    const maintenances = JSON.parse(localStorage.getItem(localStorageKey)) || [];
-    maintenances.push(modal);
-    saveMaintenances(maintenances);
-    loadMaintenances();
+    modalmaintenance = undefined; // Reset modalRoom for a new addition
+    document.querySelector('#maintenanceModalLabel').textContent = 'Add Maintenance';
+    document.querySelector('#maintenanceDescription').value = '';
+    document.querySelector('#maintenanceStatus').value = '';
+    document.querySelector('#assignedTo').value = '';
+
+    // The inventory ID will be automatically assigned once the inventory is saved
+    const maintenances = getLocalStorage(localStorageKeys.maintenance);
+    let id = 1;
+    if (maintenances.length > 0) {
+        id = Math.max(...maintenances.map(maintenance => maintenance.id)) + 1; // Auto-increment ID
+    }
 }
 
-// Save maintenance tasks to localStorage
-function saveMaintenances(maintenances) {
-    localStorage.setItem(localStorageKey, JSON.stringify(maintenances));
+// Save room (add or update)
+function saveMaintenance() {
+    console.log('save');
+
+    const maintenances = getLocalStorage(localStorageKeys.maintenance);
+
+    if (!modalmaintenance) {
+        // Adding a new room
+        const newMaintenanceDescription = document.querySelector('#maintenanceDescription').value;
+        const newMaintenanceStatus = document.querySelector('#maintenanceStatus').value;
+        const newAssignedTo = document.querySelector('#assignedTo').value;
+
+        let id = 1;
+        maintenances.forEach(maintenance => {
+            if (maintenance.id >= id) {
+                id = maintenance.id + 1;
+            }
+        });
+
+        maintenances.push({
+            id: id,
+            description: newMaintenanceDescription,
+            status: newMaintenanceStatus,
+            assigned: newAssignedTo
+        });
+    } else {
+        // Editing an existing room
+        const maintenanceToUpdate = maintenances.find(maintenance => maintenance.id === modalmaintenance.id);
+        if (maintenanceToUpdate) {
+            maintenanceToUpdate.description = modalmaintenance.description; // Update the room description
+            maintenanceToUpdate.status = modalmaintenance.status; // Update the room status
+            maintenanceToUpdate.assigned = modalmaintenance.assigned; // Update the room type
+        }
+    }
+
+    setLocalStorage(localStorageKeys.maintenance, maintenances);
+    loadmaintenance();
 }
 
-// Initialize the maintenance table
-document.addEventListener('DOMContentLoaded', loadMaintenances);
+// Delete a task
+function deleteMaintenance(maintenanceID, maintenances) {
+    const updatedMaintenances = maintenances.filter((maintenance) => maintenance.id !== maintenanceID);
+    setLocalStorage(localStorageKeys.maintenance, updatedMaintenances); // Save updated inventory
+    loadmaintenance(); // Reload table
+}
+
+function loadTechnician() {
+    const technicians = getLocalStorage(localStorageKeys.technician);
+    const dropdown = document.querySelector('#assignedTo')
+    technicians.forEach((technician) => {
+        const option = document.createElement('option');
+        option.value = technician.name;
+        option.textContent = technician.name;
+        dropdown.appendChild(option);
+    });
+}
+
+// Initialize and load data on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadmaintenance();
+    loadTechnician();
+
+
+});

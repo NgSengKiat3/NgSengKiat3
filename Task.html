@@ -50,6 +50,11 @@
                 </div>
             </li>
             <li class="nav-item1">
+                <div class="dropdown">
+                    <a class="nav-link" href="Feedback.html">Feedback</a>
+                </div>
+            </li>
+            <li class="nav-item1">
                 <a class="nav-link" href="FAQ.html">FAQ</a>
             </li>
         </nav>
@@ -61,7 +66,7 @@
         <table id="task-table">
             <thead>
                 <tr>
-                    <th>Task ID</th>
+
                     <th>Description</th>
                     <th>Status</th>
                     <th>Assigned to</th>
@@ -73,7 +78,7 @@
         <button type="button" class="btn btn-primary" id="btn-add-room" data-bs-toggle="modal"
             data-bs-target="#roomModal" onclick="addTask()">Add Task</button>
 
-        <!-- Modal for Task -->
+        <!-- Modal for Rooms -->
         <div class="modal fade" id="roomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="roomModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -82,10 +87,7 @@
                         <h1 class="modal-title fs-5" id="roomModalLabel">Add Room</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <!--Task ID-->
-                        <label for="taskID">Task ID:</label>
-                        <input type="number" id="taskID" class="form-control">
+                    <div class="modal-body">                        
 
                         <!--Description-->
                         <label for="description" class="mt-3">Description:</label>
@@ -104,9 +106,6 @@
                         <!--Assigned-->
                         <label for="Assigned" class="mt-3">Assigned to:</label>
                         <select id="Assigned" class="form-control">
-                            <option value="John">John</option>
-                            <option value="Doe">Doe</option>
-                            <option value="Jack">Jack</option>
                         </select>
                     </div>
                     <div class="modal-footer">

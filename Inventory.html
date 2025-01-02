@@ -49,6 +49,11 @@
                 </div>
             </li>
             <li class="nav-item1">
+                <div class="dropdown">
+                    <a class="nav-link" href="Feedback.html">Feedback</a>
+                </div>
+            </li>
+            <li class="nav-item1">
                 <a class="nav-link" href="FAQ.html">FAQ</a>
             </li>
         </nav>
@@ -60,7 +65,6 @@
         <table id="inventory-table">
             <thead>
                 <tr>
-                    <td>Inventory ID</td>
                     <td>Inventory</td>
                     <td>Quantity</td>
                     <td>Location</td>
@@ -84,9 +88,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!--ID-->
-                        <label for="inventoryID">Inventory ID:</label>
-                        <input type="number" id="inventoryID" class="form-control">
+            
 
                         <!-- inventory -->
                         <label for="inventoryName">Inventory:</label>
@@ -94,7 +96,7 @@
 
                         <!-- Quantity -->
                         <label for="inventoryQuantity" class="mt-3">Quantity:</label>
-                        <input type="number" id="inventoryQuantity" class="form-control">
+                        <input type="number" id="inventoryQuantity" min="0" class="form-control">
 
                         <!-- Location -->
                         <label for="inventoryLocation" class="mt-3">Location:</label>
@@ -107,14 +109,12 @@
                         <!-- Restock -->
                         <label for="inventoryRestock" class="mt-3">Restocked by:</label>
                         <select id="inventoryRestock" class="form-control">
-                            <option value="John">John</option>
-                            <option value="Doe">Doe</option>
-                            <option value="Jack">Jack</option>
+                                
                         </select>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="onSaveinventory()">Save</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="onSaveinventory()">Save</button>
                     </div>
                 </form>
             </div>

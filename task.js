@@ -1,141 +1,161 @@
+let modalTask = undefined;
 
-let modalTask = undefined; // Tracks the task being edited
-
-// Load tasks data into the table
-function loadTasks() {
-    const tasks = getLocalStorage(localStorageKeys.task);
-
+// Load inventory data into the table
+function loadTask() {
+    const tasks = getLocalStorage(localStorageKeys.task) || []; // Ensure an empty array if no data
+    /**
+     * @type {HTMLTableSectionElement}
+     */
     const tableBody = document.querySelector('#task-table tbody');
-    tableBody.innerHTML = ''; // Clear the table before loading new data
+    tableBody.innerHTML = '';
 
-    tasks.forEach(task => {
+    tasks.forEach((task) => {
         const newRow = tableBody.insertRow();
 
-        // Task ID
-        const taskIdCell = newRow.insertCell();
-        taskIdCell.textContent = task.id;
-
-        // Task Description (editable input)
-        const descriptionCell = newRow.insertCell();
-        const descriptionInput = document.createElement('input');
-        descriptionInput.type = 'text';
-        descriptionInput.value = task.description || ''; // Ensure no undefined values
-        descriptionInput.className = 'form-control';
-        descriptionInput.addEventListener('change', (event) => {
-            task.description = event.target.value;
-            saveTasks(tasks); // Save changes instantly
+        // Inventory Description
+        const taskDescriptionCell = newRow.insertCell();
+        const taskDescriptionInput = document.createElement('input');
+        taskDescriptionInput.type ='text';
+        taskDescriptionInput.value = task.quantity || '';
+        taskDescriptionInput.addEventListener('change', (event) => {
+            task.quantity = event.target.value;
+            modalTask = task;
+            saveTask();
         });
-        descriptionCell.appendChild(descriptionInput);
+        taskDescriptionCell.appendChild(taskDescriptionInput);
 
-        // Task Status (dropdown)
-        const statusCell = newRow.insertCell();
-        const statusDropdown = document.createElement('select');
-        statusDropdown.className = 'form-select';
-        ['Pending', 'In Progress', 'Completed'].forEach(status => {
+        // Inventory Status (dropdown)
+        const taskStatusCell = newRow.insertCell();
+        const taskStatusDropdown = document.createElement('select');
+        taskStatusDropdown.className = 'form-select';
+        ['Available', 'Occupied', 'Under Maintanence'].forEach((status) => {
             const option = document.createElement('option');
             option.value = status;
             option.textContent = status;
             if (status === task.status) option.selected = true;
-            statusDropdown.appendChild(option);
+            taskStatusDropdown.appendChild(option);
         });
-        statusDropdown.addEventListener('change', (event) => {
-            task.status = event.target.value;
-            saveTasks(tasks); // Save changes instantly
-        });
-        statusCell.appendChild(statusDropdown);
 
-        // Task Assigned To (dropdown)
-        const assignedToCell = newRow.insertCell();
-        const assignedDropdown = document.createElement('select');
-        assignedDropdown.className = 'form-select';
-        ['John', 'Doe', 'Jack'].forEach(name => {
-            const option = document.createElement('option');
-            option.value = name;
-            option.textContent = name;
-            if (name === task.assignedTo) option.selected = true;
-            assignedDropdown.appendChild(option);
+        taskStatusDropdown.addEventListener('change', (event) => {
+            task.status = event.target.value;
+            modalTask = task;
+            saveTask(); // Save after updating location
         });
-        assignedDropdown.addEventListener('change', (event) => {
-            task.assignedTo = event.target.value;
-            saveTasks(tasks); // Save changes instantly
+        taskStatusCell.appendChild(taskStatusDropdown);
+
+        // Inventory Assigned to (dropdown)
+        const taskAssignToCell = newRow.insertCell();
+        const taskAssignToDropdown = document.createElement('select');
+        taskAssignToDropdown.className = 'form-select';
+        getLocalStorage(localStorageKeys.staff)
+            .map(staff => staff.name)
+            .forEach((assign) => {
+                const option = document.createElement('option');
+                option.value = assign;
+                option.textContent = assign;
+                if (assign === task.assign) option.selected = true;
+                taskAssignToDropdown.appendChild(option);
+            });
+        taskAssignToDropdown.addEventListener('change', (event) => {
+            task.assign = event.target.value;
+            modalTask = task;
+            saveTask(); // Save after updating restock
         });
-        assignedToCell.appendChild(assignedDropdown);
+        taskAssignToCell.appendChild(taskAssignToDropdown);
 
         // Delete Button
-        const deleteCell = newRow.insertCell();
+        const deleteTaskCell = newRow.insertCell();
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'btn btn-danger btn-sm';
         deleteButton.addEventListener('click', () => {
             deleteTask(task.id, tasks);
         });
-        deleteCell.appendChild(deleteButton);
+        deleteTaskCell.appendChild(deleteButton);
     });
 }
 
-// Save tasks to localStorage
-function saveTasks(tasks) {
-    setLocalStorage(localStorageKeys.task, tasks);
-    loadTasks(); // Reload to ensure consistency
-}
-
-// Add new task
+// Add new inventory
 function addTask() {
-    // Clear the input fields in the modal
-    document.querySelector('#taskID').value = ''; // Empty ID (we'll set it below)
-    document.querySelector('#description').value = ''; // Clear description
-    document.querySelector('#taskStatus').value = 'Pending'; // Default status
-    document.querySelector('#Assigned').value = 'John'; // Default assigned person
+    modalTask = undefined;
+    document.querySelector('#description').value = '';
+    document.querySelector('#taskStatus').value = '';
+    document.querySelector('#Assigned').value = '';
 
-    // The task ID will be automatically assigned once the task is saved
+    // The inventory ID will be automatically assigned once the inventory is saved
     const tasks = getLocalStorage(localStorageKeys.task);
     let id = 1;
     if (tasks.length > 0) {
         id = Math.max(...tasks.map(task => task.id)) + 1; // Auto-increment ID
     }
-    document.querySelector('#taskID').value = id; // Set the new task ID
-
 }
 
-// Save task to localStorage
+// Save inventory
 function saveTask() {
-    const taskID = document.querySelector('#taskID').value;
-    const description = document.querySelector('#description').value;
-    const status = document.querySelector('#taskStatus').value;
-    const assignedTo = document.querySelector('#Assigned').value;
 
-    // Retrieve current tasks from localStorage
     const tasks = getLocalStorage(localStorageKeys.task);
 
-    // Create new task object
-    const newTask = {
-        id: parseInt(taskID), // Ensure the ID is a number
-        description: description,
-        status: status,
-        assignedTo: assignedTo
-    };
 
-    // Push the new task to the task array
-    tasks.push(newTask);
 
-    // Save updated tasks list
-    saveTasks(tasks);
+    if (!modalTask) {
+        // Add new inventory
+        const taskDescription = document.querySelector('#description').value;
+        const taskStatus = document.querySelector('#taskStatus').value;
+        const taskAssigned = document.querySelector('#Assigned').value;
+        
+        let id = 1;
+        tasks.forEach(task => {
+            if (task.id >= id) {
+                id = task.id + 1;
+            }
+        });
+        tasks.push({
+            id: id,
+            description: taskDescription,
+            status: taskStatus,
+            assign: taskAssigned,
+        });
+    } else {
+        // Editing an existing room
+        const taskUpdate = tasks.find(task => task.id === modalTask.id);
+        if (taskUpdate) {
+            taskUpdate.description = modalTask.description; // Update the room name
+            taskUpdate.status = modalTask.status; // Update the room type
+            taskUpdate.assign = modalTask.assign; // Update the room location
+        }
+    }
 
+    setLocalStorage(localStorageKeys.task, tasks); // Save updated inventory to localStorage
+    loadTask(); // Reload table
 }
 
 // Delete a task
-function deleteTask(taskId, tasks) {
-    const updatedTasks = tasks.filter(task => task.id !== taskId);
-    saveTasks(updatedTasks); // Save the updated list of tasks
+function deleteTask(taskID, tasks) {
+    const updatedTask = tasks.filter((task) => task.id !== taskID);
+    setLocalStorage(localStorageKeys.task, updatedTask); // Save updated inventory
+    loadTask(); // Reload table
+}
+ 
+function loadStaff() {
+    const staffs = getLocalStorage(localStorageKeys.staff);
+    const dropdown = document.querySelector('#Assigned')
+    staffs.forEach((staff) => {
+        const option = document.createElement('option');
+        option.value = staff.name;
+        option.textContent = staff.name;
+        dropdown.appendChild(option);
+    }); 
 }
 
-// Initialize and load data on page load
+// Event Listener Initialization
 document.addEventListener('DOMContentLoaded', () => {
-    loadTasks();
+    loadTask();
+    loadStaff();
+    
 
-    // Event listener for the Add Task button
     document.querySelector('#btn-add-room').addEventListener('click', addTask);
 
-
 });
+
+
 
