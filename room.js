@@ -32,7 +32,7 @@ function loadRooms() {
         roomTypeDropdown.addEventListener('change', (event) => {
             room.type = event.target.value;
             modalmaintenance = room;
-            saveMaintenance();
+            onSaveRoom();
         });
         roomTypeCell.appendChild(roomTypeDropdown);
 
@@ -50,15 +50,25 @@ function loadRooms() {
         roomStatusDropdown.addEventListener('change', (event) => {
             room.status = event.target.value;
             modalmaintenance = room;
-            saveMaintenance();
+            onSaveRoom();
         });
         roomStatusCell.appendChild(roomStatusDropdown);
-        
+
+        // Delete Button
+        const deleteRoomCell = newRow.insertCell();
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'btn btn-danger btn-sm';
+        deleteButton.addEventListener('click', () => {
+            deleteInventory(room.id, rooms);
+        });
+        deleteRoomCell.appendChild(deleteButton);
+
     });
 }
 
 // Add a new room (reset modal fields)
-function addMaintenance() {
+function onAddRoom() {
     modalmaintenance = undefined; // Reset modalRoom for a new addition
     document.querySelector('#roomModalLabel').textContent = 'Add Room';
     document.querySelector('#room-name').value = '';
@@ -67,7 +77,7 @@ function addMaintenance() {
 }
 
 // Save room (add or update)
-function saveMaintenance() {
+function onSaveRoom() {
     console.log('save');
 
     const rooms = getLocalStorage(localStorageKeys.room);
@@ -101,8 +111,15 @@ function saveMaintenance() {
         }
     }
 
-    setLocalStorage(localStorageKeys.room, rooms);
-    loadRooms();
+    setLocalStorage(localStorageKeys.room, rooms); //Save updated room to localstorage
+    loadRooms(); //Reload table
+}
+
+// Delete a task
+function deleteInventory(roomID, rooms) {
+    const updatedRoom = rooms.filter((room) => room.id !== roomID);
+    setLocalStorage(localStorageKeys.room, updatedRoom); // Save updated inventory
+    loadRooms(); // Reload table
 }
 
 // Initialize and load data on page load
