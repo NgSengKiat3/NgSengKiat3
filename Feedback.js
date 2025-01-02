@@ -16,7 +16,7 @@ function loadFeedback() {
         const feedbackONECell = newRow.insertCell();
         const feedbackONEDropdown = document.createElement('select');
         feedbackONEDropdown.className = 'form-select';
-        ['1','2','3','4','5'].forEach((One) => {
+        ['1', '2', '3', '4', '5'].forEach((One) => {
             const option = document.createElement('option');
             option.value = One;
             option.textContent = One;
@@ -35,7 +35,7 @@ function loadFeedback() {
         const feedbackTWOCell = newRow.insertCell();
         const feedbackTWODropdown = document.createElement('select');
         feedbackTWODropdown.className = 'form-select';
-        ['1','2','3','4','5'].forEach((Two) => {
+        ['1', '2', '3', '4', '5'].forEach((Two) => {
             const option = document.createElement('option');
             option.value = Two;
             option.textContent = Two;
@@ -54,7 +54,7 @@ function loadFeedback() {
         const feedbackTHREECell = newRow.insertCell();
         const feedbackTHREEDropdown = document.createElement('select');
         feedbackTHREEDropdown.className = 'form-select';
-        ['Yes','No'].forEach((Three) => {
+        ['Yes', 'No'].forEach((Three) => {
             const option = document.createElement('option');
             option.value = Three;
             option.textContent = Three;
@@ -69,9 +69,17 @@ function loadFeedback() {
         });
         feedbackTHREECell.appendChild(feedbackTHREEDropdown);
 
-        //Feedback Four
+        // Feedback Four
         const feedbackFOURCell = newRow.insertCell();
-        feedbackFOURCell.textContent = feedback.q4;
+        const feedbackFOURInput = document.createElement('input');
+        feedbackFOURInput.type = 'text';
+        feedbackFOURInput.value = task.description || '';
+        feedbackFOURInput.addEventListener('change', (event) => {
+            feedback.q4 = event.target.value;
+            modalfeedback = feedback;
+            saveTask();
+        });
+        feedbackFOURCell.appendChild(feedbackFOURInput);
 
         //Delete button
         const deleteFeedbackCell = newRow.insertCell();

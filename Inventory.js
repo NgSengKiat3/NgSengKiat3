@@ -13,14 +13,22 @@ function loadinventory() {
         const newRow = tableBody.insertRow();
 
 
-        // Inventory Name
+        // Inventory name(edible)
         const inventoryNameCell = newRow.insertCell();
-        inventoryNameCell.textContent = inventory.name;
+        const inventoryNameInput = document.createElement('input');
+        inventoryNameInput.type = 'text';
+        inventoryNameInput.value = inventory.name || '';
+        inventoryNameInput.addEventListener('change', (event) => {
+            inventory.name = event.target.value;
+            modalinventory = inventory;
+            onSaveinventory();
+        });
+        inventoryNameCell.appendChild(inventoryNameInput);
 
         // Inventory Quantity
         const inventoryQuantityCell = newRow.insertCell();
         const inventoryQuantityInput = document.createElement('input');
-        inventoryQuantityInput.type ='number';
+        inventoryQuantityInput.type = 'number';
         inventoryQuantityInput.min = 0;
         inventoryQuantityInput.value = inventory.quantity || '';
         inventoryQuantityInput.addEventListener('change', (event) => {
@@ -146,7 +154,7 @@ function deleteInventory(inventoryID, Inventory) {
     setLocalStorage(localStorageKeys.inventory, updatedInventory); // Save updated inventory
     loadinventory(); // Reload table
 }
- 
+
 function loadStaff() {
     const staffs = getLocalStorage(localStorageKeys.staff);
     const dropdown = document.querySelector('#inventoryRestock')
@@ -155,14 +163,14 @@ function loadStaff() {
         option.value = staff.name;
         option.textContent = staff.name;
         dropdown.appendChild(option);
-    }); 
+    });
 }
 
 // Event Listener Initialization
 document.addEventListener('DOMContentLoaded', () => {
     loadinventory();
     loadStaff();
-    
+
 
     document.querySelector('#btn-add-inventory').addEventListener('click', onAddinventory);
 
