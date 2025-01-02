@@ -1,8 +1,8 @@
 let modalinventory = undefined;
 
 // Load inventory data into the table
-function loadFeedback() {
-    const Inventory = getLocalStorage(localStorageKeys.feedback) || []; // Ensure an empty array if no data
+function loadinventory() {
+    const Inventory = getLocalStorage(localStorageKeys.inventory) || []; // Ensure an empty array if no data
     /**
      * @type {HTMLTableSectionElement}
      */
@@ -25,7 +25,7 @@ function loadFeedback() {
         inventoryQuantityInput.value = inventory.quantity || '';
         inventoryQuantityInput.addEventListener('change', (event) => {
             inventory.quantity = event.target.value;
-            modalTask = inventory;
+            modalinventory = inventory;
             onSaveinventory();
         });
         inventoryQuantityCell.appendChild(inventoryQuantityInput);
@@ -44,7 +44,7 @@ function loadFeedback() {
 
         inventoryLocationDropdown.addEventListener('change', (event) => {
             inventory.location = event.target.value;
-            modalTask = inventory;
+            modalinventory = inventory;
             onSaveinventory(); // Save after updating location
         });
         inventoryLocationCell.appendChild(inventoryLocationDropdown);
@@ -64,7 +64,7 @@ function loadFeedback() {
             });
         inventoryRestockDropdown.addEventListener('change', (event) => {
             inventory.restock = event.target.value;
-            modalTask = inventory;
+            modalinventory = inventory;
             onSaveinventory(); // Save after updating restock
         });
         inventoryRestockCell.appendChild(inventoryRestockDropdown);
@@ -75,7 +75,7 @@ function loadFeedback() {
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'btn btn-danger btn-sm';
         deleteButton.addEventListener('click', () => {
-            deleteFeedback(inventory.id, Inventory);
+            deleteInventory(inventory.id, Inventory);
         });
         deleteInventoryCell.appendChild(deleteButton);
     });
@@ -83,7 +83,7 @@ function loadFeedback() {
 
 // Add new inventory
 function onAddinventory() {
-    modalTask = undefined;
+    modalinventory = undefined;
     document.querySelector('#inventoryName').value = '';
     document.querySelector('#inventoryQuantity').value = '';
     document.querySelector('#inventoryLocation').value = '';
@@ -91,7 +91,7 @@ function onAddinventory() {
 
 
     // The inventory ID will be automatically assigned once the inventory is saved
-    const Inventory = getLocalStorage(localStorageKeys.feedback);
+    const Inventory = getLocalStorage(localStorageKeys.inventory);
     let id = 1;
     if (Inventory.length > 0) {
         id = Math.max(...Inventory.map(inventory => inventory.id)) + 1; // Auto-increment ID
@@ -101,11 +101,11 @@ function onAddinventory() {
 // Save inventory
 function onSaveinventory() {
 
-    const Inventory = getLocalStorage(localStorageKeys.feedback);
+    const Inventory = getLocalStorage(localStorageKeys.inventory);
 
 
 
-    if (!modalTask) {
+    if (!modalinventory) {
         // Add new inventory
         const inventoryName = document.querySelector('#inventoryName').value;
         const inventoryQuantity = document.querySelector('#inventoryQuantity').value;
@@ -127,24 +127,24 @@ function onSaveinventory() {
         });
     } else {
         // Editing an existing room
-        const inventoryUpdate = Inventory.find(inventory => inventory.id === modalTask.id);
+        const inventoryUpdate = Inventory.find(inventory => inventory.id === modalinventory.id);
         if (inventoryUpdate) {
-            inventoryUpdate.name = modalTask.name; // Update the room name
-            inventoryUpdate.quantity = modalTask.quantity; // Update the room type
-            inventoryUpdate.location = modalTask.location; // Update the room location
-            inventoryUpdate.restock = modalTask.restock; // Update the inventory restock
+            inventoryUpdate.name = modalinventory.name; // Update the room name
+            inventoryUpdate.quantity = modalinventory.quantity; // Update the room type
+            inventoryUpdate.location = modalinventory.location; // Update the room location
+            inventoryUpdate.restock = modalinventory.restock; // Update the inventory restock
         }
     }
 
-    setLocalStorage(localStorageKeys.feedback, Inventory); // Save updated inventory to localStorage
-    loadFeedback(); // Reload table
+    setLocalStorage(localStorageKeys.inventory, Inventory); // Save updated inventory to localStorage
+    loadinventory(); // Reload table
 }
 
 // Delete a task
-function deleteFeedback(inventoryID, Inventory) {
+function deleteInventory(inventoryID, Inventory) {
     const updatedInventory = Inventory.filter((inventory) => inventory.id !== inventoryID);
-    setLocalStorage(localStorageKeys.feedback, updatedInventory); // Save updated inventory
-    loadFeedback(); // Reload table
+    setLocalStorage(localStorageKeys.inventory, updatedInventory); // Save updated inventory
+    loadinventory(); // Reload table
 }
  
 function loadStaff() {
@@ -160,7 +160,7 @@ function loadStaff() {
 
 // Event Listener Initialization
 document.addEventListener('DOMContentLoaded', () => {
-    loadFeedback();
+    loadinventory();
     loadStaff();
     
 

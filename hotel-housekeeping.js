@@ -3,7 +3,7 @@ const localStorageKeys = {
     room: 'room',
     task: 'task',
     feedback: 'feedback',
-    feedback: 'inventory',
+    inventory: 'inventory',
     maintenance: 'maintenance',
     technician: 'technician'
 }
@@ -25,7 +25,7 @@ function initializeValues() {
     initializeIfNotSet(localStorageKeys.task, tasks);
 
     const Inventory = [];
-    initializeIfNotSet(localStorageKeys.feedback, Inventory);
+    initializeIfNotSet(localStorageKeys.inventory, Inventory);
 
     const maintenance = [];
     initializeIfNotSet(localStorageKeys.maintenance, maintenance);
@@ -36,8 +36,8 @@ function initializeValues() {
     const technician = [{id: 1, name: 'Ali'}, {id: 2, name: 'Abu'}, {id: 3, name: 'Aba'}];
     initializeIfNotSet(localStorageKeys.technician, technician)
 
-    const feedbacks = [];
-    initializeIfNotSet(localStorageKeys.feedback, feedbacks); 
+    const Feedback = [];
+    initializeIfNotSet(localStorageKeys.feedback, Feedback); 
 }
 
 

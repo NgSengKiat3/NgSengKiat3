@@ -13,7 +13,7 @@ function loadFeedback() {
 
         const feedbackONECell = newRow.insertCell();
         const feedbackONEDropdown = document.createElement('select');
-        feedbackONEDropdown.classq1 = 'form-select';
+        feedbackONEDropdown.className = 'form-select';
         ['1','2','3','4','5'].forEach((One) => {
             const option = document.createElement('option');
             option.value = One;
@@ -31,7 +31,7 @@ function loadFeedback() {
 
         const feedbackTWOCell = newRow.insertCell();
         const feedbackTWODropdown = document.createElement('select');
-        feedbackTWODropdown.classq1 = 'form-select';
+        feedbackTWODropdown.className = 'form-select';
         ['1','2','3','4','5'].forEach((Two) => {
             const option = document.createElement('option');
             option.value = Two;
@@ -49,7 +49,7 @@ function loadFeedback() {
 
         const feedbackTHREECell = newRow.insertCell();
         const feedbackTHREEDropdown = document.createElement('select');
-        feedbackTHREEDropdown.classq1 = 'form-select';
+        feedbackTHREEDropdown.className = 'form-select';
         ['Yes','No'].forEach((Three) => {
             const option = document.createElement('option');
             option.value = Three;
@@ -71,7 +71,7 @@ function loadFeedback() {
         const deleteFeedbackCell = newRow.insertCell();
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
-        deleteButton.classq1 = 'btn btn-danger btn-sm';
+        deleteButton.className = 'btn btn-danger btn-sm';
         deleteButton.addEventListener('click', () => {
             deleteFeedback(feedback.id, Feedback);
         });
