@@ -16,16 +16,16 @@ function loadFeedback() {
         const feedbackONECell = newRow.insertCell();
         const feedbackONEDropdown = document.createElement('select');
         feedbackONEDropdown.className = 'form-select';
-        ['1', '2', '3', '4', '5'].forEach((One) => {
+        ['1', '2', '3', '4', '5'].forEach((q1) => {
             const option = document.createElement('option');
-            option.value = One;
-            option.textContent = One;
-            if (One === feedback.One) option.selected = true;
+            option.value = q1;
+            option.textContent = q1;
+            if (q1 === feedback.q1) option.selected = true;
             feedbackONEDropdown.appendChild(option);
         });
 
         feedbackONEDropdown.addEventListener('change', (event) => {
-            feedback.One = event.target.value;
+            feedback.q1 = event.target.value;
             modalfeedback = feedback;
             onSaveFeedback();
         });
@@ -35,16 +35,16 @@ function loadFeedback() {
         const feedbackTWOCell = newRow.insertCell();
         const feedbackTWODropdown = document.createElement('select');
         feedbackTWODropdown.className = 'form-select';
-        ['1', '2', '3', '4', '5'].forEach((Two) => {
+        ['1', '2', '3', '4', '5'].forEach((q2) => {
             const option = document.createElement('option');
-            option.value = Two;
-            option.textContent = Two;
-            if (Two === feedback.Two) option.selected = true;
+            option.value = q2;
+            option.textContent = q2;
+            if (q2 === feedback.q2) option.selected = true;
             feedbackTWODropdown.appendChild(option);
         });
 
         feedbackTWODropdown.addEventListener('change', (event) => {
-            feedback.One = event.target.value;
+            feedback.q2 = event.target.value;
             modalfeedback = feedback;
             onSaveFeedback();
         });
@@ -54,16 +54,16 @@ function loadFeedback() {
         const feedbackTHREECell = newRow.insertCell();
         const feedbackTHREEDropdown = document.createElement('select');
         feedbackTHREEDropdown.className = 'form-select';
-        ['Yes', 'No'].forEach((Three) => {
+        ['Yes', 'No'].forEach((q3) => {
             const option = document.createElement('option');
-            option.value = Three;
-            option.textContent = Three;
-            if (Three === feedback.Three) option.selected = true;
+            option.value = q3;
+            option.textContent = q3;
+            if (q3 === feedback.q3) option.selected = true;
             feedbackTHREEDropdown.appendChild(option);
         });
 
         feedbackTHREEDropdown.addEventListener('change', (event) => {
-            feedback.One = event.target.value;
+            feedback.q3 = event.target.value;
             modalfeedback = feedback;
             onSaveFeedback();
         });
